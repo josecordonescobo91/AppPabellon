@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -31,7 +30,7 @@ import java.util.Map;
 
 public class Main_Inicio_Activity extends AppCompatActivity {
 
-    Button btnCerrarSesion, btnMisPistas, btnMisBicicletas;
+    Button btnCerrarSesion, btnMisPistas;
     TextView tvNombre;
     //private AsyncHttpClient cliente;
     String usuario;
@@ -41,21 +40,14 @@ public class Main_Inicio_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__inicio_);
-        tvNombre = findViewById(R.id.tvNombre);
+
 
         Intent intent = getIntent();
         usuario = intent.getStringExtra("usuario");
 
-        if(usuario == null){
-            recuperarPreferendias();
-        }
-
-
-
 
         btnCerrarSesion=findViewById(R.id.btnCerrarSesion);
         btnMisPistas=findViewById(R.id.btnMisPistas);
-        btnMisBicicletas=findViewById(R.id.btnMisBicicletas);
 
         btnCerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,21 +68,7 @@ public class Main_Inicio_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Main_MisPistas_Activity.class);
                 intent.putExtra("usuario", usuario);
                 startActivity(intent);
-                //   finish();
-
-            }
-
-
-        });
-
-        btnMisBicicletas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getApplicationContext(), Main_MisBicicletas_Activity.class);
-                intent.putExtra("usuario", usuario);
-                startActivity(intent);
-                //   finish();
+             //   finish();
 
             }
 
@@ -99,24 +77,5 @@ public class Main_Inicio_Activity extends AppCompatActivity {
 
 
 
-    }
-
-    private void recuperarPreferendias(){
-        SharedPreferences preferences = getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
-        tvNombre.setText(preferences.getString("usuario", ""));
-
-        usuario = tvNombre.getText().toString();
-
-    }
-
-    public void AlquilarPista (View view){
-        Intent Alquilar = new Intent(this, Main_AlquilarPista_Activity.class);
-        Alquilar.putExtra("usuario", usuario);
-        startActivity(Alquilar);
-    }
-
-    public void IrInicio (View view){
-        Intent Inicio = new Intent(this, MainActivity.class);
-        startActivity(Inicio);
     }
 }

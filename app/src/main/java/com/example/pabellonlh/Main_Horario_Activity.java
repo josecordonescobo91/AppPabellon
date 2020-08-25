@@ -37,7 +37,7 @@ public class Main_Horario_Activity extends AppCompatActivity {
         Toast.makeText(Main_Horario_Activity.this, "HORARIO PABELLON LAHIGUERA", Toast.LENGTH_SHORT).show();
         lvDatos = (ListView) findViewById(R.id.lvDatos);
         cliente = new AsyncHttpClient ();
-        String consulta = "http://jose-cordones.es/app/consultas/obtenerHorario.php";
+        String consulta = "http://jose-cordones.es/app/obtenerHorario.php";
         EnviarRecibirDatos(consulta);
         //obtenerHorario();
 

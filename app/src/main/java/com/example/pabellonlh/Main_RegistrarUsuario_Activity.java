@@ -53,7 +53,7 @@ public class Main_RegistrarUsuario_Activity extends AppCompatActivity {
                         Toast.makeText(Main_RegistrarUsuario_Activity.this, "EL CORREO NO ES CORRECTO", Toast.LENGTH_SHORT).show();
                         email.setText("");
                     }else{
-                        validarUsuario("http://jose-cordones.es/app/consultas/comprobar_usuario_registro.php");
+                        validarUsuario("http://jose-cordones.es/app/comprobar_usuario_registro.php");
                     }
 
                 }else{

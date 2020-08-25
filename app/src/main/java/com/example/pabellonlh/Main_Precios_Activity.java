@@ -33,7 +33,7 @@ public class Main_Precios_Activity extends AppCompatActivity {
         Toast.makeText(Main_Precios_Activity.this, "PRECIOS PABELLON LAHIGUERA", Toast.LENGTH_SHORT).show();
         lvPrecios = (ListView) findViewById(R.id.lvPrecios);
         cliente = new AsyncHttpClient ();
-        String consulta = "http://jose-cordones.es/app/consultas/obtenerPrecios.php";
+        String consulta = "http://jose-cordones.es/app/obtenerPrecios.php";
         EnviarRecibirDatos(consulta);
     }
 
