@@ -11,25 +11,37 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvHorario"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#4F6AA6"
-            android:text="HORARIO PABELLON DE LAHIGUERA"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent">
 
-        <ListView
-            android:id="@+id/lvDatos"
-            style="@android:style/Widget.Material.Light.ListView"
-            android:layout_width="match_parent"
-            android:layout_height="670dp"
-            android:background="#62D1A5"
-            android:fadingEdge="horizontal"
-            android:footerDividersEnabled="true"
-            android:headerDividersEnabled="true"
-            android:scrollbars="horizontal" />
+            <LinearLayout
+                android:id="@+id/scHorario"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:background="#5DAEA7"
+                    android:text="HORARIO"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
+
+                <ListView
+                    android:id="@+id/lvDatos"
+                    android:layout_width="match_parent"
+                    android:layout_height="661dp"
+                    android:background="#8EE890"
+                    android:fadingEdge="horizontal"
+                    android:footerDividersEnabled="true"
+                    android:headerDividersEnabled="true"
+                    android:scrollbars="horizontal" />
+            </LinearLayout>
+        </ScrollView>
 
     </LinearLayout>
 

@@ -80,10 +80,11 @@ public class Main_Login_Activity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String,String> parametros = new HashMap<String, String>();
-               // parametros.put("nick", edtNick.getText().toString());
-                //parametros.put("pass", edtPass.getText().toString());
+
                 parametros.put("nick", usuario);
                 parametros.put("pass", password);
+              /*/  Intent intent = new Intent(getApplicationContext(), Main_CargandoUsuario_Activity.class);
+                intent.putExtra("nick", usuario);*/
 
                 return parametros;
             }
@@ -104,8 +105,10 @@ public class Main_Login_Activity extends AppCompatActivity {
 
     private void recuperarPreferendias(){
         SharedPreferences preferences = getSharedPreferences("preferenciasLogin", Context.MODE_PRIVATE);
-        edtNick.setText(preferences.getString("usuario", "cordones91"));
-        edtPass.setText(preferences.getString("password", "123456"));
+        edtNick.setText(preferences.getString("usuario", ""));
+        edtPass.setText(preferences.getString("password", ""));
     }
 
 }
+
+

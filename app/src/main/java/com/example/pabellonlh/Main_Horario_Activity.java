@@ -34,9 +34,10 @@ public class Main_Horario_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main__horario_);
+        Toast.makeText(Main_Horario_Activity.this, "HORARIO PABELLON LAHIGUERA", Toast.LENGTH_SHORT).show();
         lvDatos = (ListView) findViewById(R.id.lvDatos);
         cliente = new AsyncHttpClient ();
-        String consulta = "http://jose-cordones.es/app/obtener.php";
+        String consulta = "http://jose-cordones.es/app/consultas/obtenerHorario.php";
         EnviarRecibirDatos(consulta);
         //obtenerHorario();
 
@@ -45,7 +46,7 @@ public class Main_Horario_Activity extends AppCompatActivity {
 
     public void EnviarRecibirDatos(String URL){
 
-        Toast.makeText(getApplicationContext(), ""+URL, Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(getApplicationContext(), ""+URL, Toast.LENGTH_SHORT).show();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
@@ -80,11 +81,11 @@ public class Main_Horario_Activity extends AppCompatActivity {
 
         ArrayList<String> lista = new ArrayList<>();
 
-        for(int i=0;i<ja.length();i+=9){
+        for(int i=0;i<ja.length();i+=18){
 
             try {
 
-                lista.add(" MOMENTO:                "+ja.getString(i+1)+ "\n" + " LUNES:                       "+ja.getString(i+2)+" \n"+" MARTES:                    "+ja.getString(i+3)+" \n"+" MIERCOLES:              "+ja.getString(i+4)+"\n "+"JUEVES:                     "+ja.getString(i+5)+"\n"+" VIERNES:                    "+ja.getString(i+6)+"\n"+" SABADO:                    "+ja.getString(i+7)+"\n"+" DOMINGO:                  "+ja.getString(i+8));
+                lista.add("\n"+"                           "+ja.getString(i+1) + "             "+ja.getString(i+10)+" \n \n"+" LUNES:             "+ja.getString(i+2)+"      "+ja.getString(i+11)+"\n \n"+" MARTES:          "+ja.getString(i+3)+"      "+ja.getString(i+12)+"\n \n"+"MIERCOLES:     "+ja.getString(i+4)+"      "+ja.getString(i+13)+"\n \n"+"JUEVES:            "+ja.getString(i+5)+"      "+ja.getString(i+14)+"\n \n"+"VIERNES:          "+ja.getString(i+6)+"      "+ja.getString(i+15)+"\n \n"+"SABADO:           "+ja.getString(i+7)+"      "+ja.getString(i+16)+"\n \n"+"DOMINGO:         "+ja.getString(i+8)+"             "+ja.getString(i+17)+"\n \n");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -100,73 +101,4 @@ public class Main_Horario_Activity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /* private void obtenerHorario (){
-        String url = "http://jose-cordones.es/obtener.php";
-        cliente.post(url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if(statusCode == 200){
-                    listarHorario (new String (responseBody));
-
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
-    }*/
-
-   /* private void listarHorario(String respuesta){
-
-        ArrayList <Horario> lista = new ArrayList <Horario>();
-        try{
-            String res = respuesta.replace(",", "");
-            //String repuestasin = respuesta.replace("u", "w");
-            JSONArray jsonArreglo = new JSONArray(respuesta);
-            for (int i= 0; i<jsonArreglo.length(); i++){
-                Horario h = new Horario();
-                h.setMomento((jsonArreglo.getJSONObject(i).getString("momento").replaceAll("M", "j"))+ "\n");
-                h.setLunes((jsonArreglo.getJSONObject(i).getString("lunes").replaceAll("lunes", "lu") ) + "\n");;
-                h.setMartes((jsonArreglo.getJSONObject(i).getString("martes").replaceAll("=", "") )+ "\n");
-                h.setMiercoles((jsonArreglo.getJSONObject(i).getString("miercoles").replaceAll("=", "") ) + "\n");
-                h.setJueves((jsonArreglo.getJSONObject(i).getString("jueves").replaceAll("'", "")  )+ "\n");
-                h.setViernes((jsonArreglo.getJSONObject(i).getString("viernes").replaceAll("'", "") )+ "\n");
-                h.setSabado((jsonArreglo.getJSONObject(i).getString("sabado").replaceAll("'", "") )+ "\n");
-                h.setDomingo((jsonArreglo.getJSONObject(i).getString("domingo").replaceAll("'", "") )+ "\n");
-                lista.add(h);
-
-            }
-
-            ArrayAdapter <Horario> a = new ArrayAdapter(this,android.R.layout.simple_list_item_1, lista);
-
-
-            lvDatos.setAdapter(a);
-           // lvDatos.Items.Add(a);
-
-        }catch (Exception el) {
-            el.printStackTrace();
-        }
-    }*/
 }
