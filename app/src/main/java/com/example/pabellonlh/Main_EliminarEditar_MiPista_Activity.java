@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,8 +35,9 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
     private Adapter item;
     String idPista;
     EditText edFecha, edHora, edPista;
-    Button btEliminar;
+    Button btEliminar, btEditar;
     Spinner snMaterial;
+    TextView tvSesion, spMate;
 
      //intent.putExtra("usuario", usuario);
 
@@ -50,21 +52,24 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
         edHora = (EditText) findViewById(R.id.edHora);
         edPista = (EditText) findViewById(R.id.edPista);
         snMaterial = (Spinner) findViewById(R.id.snMaterial);
+        spMate = (TextView) findViewById(R.id.spMate);
         btEliminar = (Button) findViewById(R.id.btEliminar);
+        btEditar = (Button) findViewById(R.id.btEditar);
         idPista = intent.getStringExtra("objetoData");
-        String[] parts = idPista.split("          ");
+        String[] parts = idPista.split("        ");
         String fecha = parts[0];
         String hora = parts[1];
-        String pista = parts[2];
+        String pista = parts[3];
+        String sesionNick = parts[4];
 
         edFecha.setText(fecha);
         edHora.setText(hora);
         edPista.setText(pista);
 
 
+
         String nick = intent.getStringExtra("nick");
 
-        Toast.makeText(Main_EliminarEditar_MiPista_Activity.this, nick, Toast.LENGTH_SHORT).show();
 
 
 
@@ -75,8 +80,6 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
 
 
     public void EnviarRecibirDatos(String URL){
-
-        //Toast.makeText(getApplicationContext(), ""+URL, Toast.LENGTH_SHORT).show();
 
         RequestQueue queue = Volley.newRequestQueue(this);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
@@ -115,13 +118,21 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
         String id = null;
         String nick = null;
         String material = null;
-        for(int i=0;i<ja.length();i+=2){
+        String idInformacion = null;
+        String idPersona = null;
+        String pagado = null;
+        String devuelto = null;
+        for(int i=0;i<ja.length();i+=6){
 
             try {
 
-                id = ("\n"+ja.getString(i+-2));
-                material = ("\n"+ja.getString(i+-1));
-                nick = ("\n"+ja.getString(i+-0));
+                id = ("\n"+ja.getString(i+-6));
+                material = ("\n"+ja.getString(i+-5));
+                nick = ("\n"+ja.getString(i+-4));
+                idInformacion = ("\n"+ja.getString(i+-3));
+                idPersona = ("\n"+ja.getString(i+-2));
+                pagado = ("\n"+ja.getString(i+-1));
+                devuelto = ("\n"+ja.getString(i+0));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -129,14 +140,26 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
         }
 
 
-
         ArrayAdapter<String> adaptador = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, lista);
         Intent intent = getIntent();
 
-        String [] SpinnerMaterial = {material+"\n", "si", "no"};
+        String [] SpinnerMaterial = {material, "si", "no"};
+        spMate.setText(material);
 
-        ArrayAdapter <String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, SpinnerMaterial);
+        final ArrayAdapter <String> adapter = new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, SpinnerMaterial);
         snMaterial.setAdapter(adapter);
+        snMaterial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                Object item = parent.getItemAtPosition(pos);
+
+               final String valorSpiner = snMaterial.getSelectedItem().toString();
+               // spMate.setText("");
+                spMate.setText(valorSpiner);
+            }
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
 
 
 
@@ -157,11 +180,61 @@ public class Main_EliminarEditar_MiPista_Activity extends AppCompatActivity {
             }
         });
 
+        final String finalIdInformacion = idInformacion;
+        final String finalIdPersona = idPersona;
+        final String finalPagado = pagado;
+        final String finalDevuelto = devuelto;
+        btEditar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                snMaterial.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        Object item = parent.getItemAtPosition(pos);
+
+                        String valorSpiner = snMaterial.getSelectedItem().toString();
+                        spMate.setText(valorSpiner);
+
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
+                String valorSpi = spMate.getText().toString();
+                ActualizarPistas("http://jose-cordones.es/app/actualizarMiPista.php?material="+ valorSpi+"&id_info_posible_reserva="+ finalIdInformacion+"&idalquiler="+ finalId+"&idpersona="+ finalIdPersona+"&pagado="+ finalPagado+"&devuelto="+ finalDevuelto);
+                Intent intent = new Intent(getApplicationContext(), Main_Inicio_Activity.class);
+                intent.putExtra("usuario", finalNick);
+                startActivity(intent);
+                finish();
+                Toast.makeText(getApplicationContext(), "PISTA EDITADA", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
     public void EliminarPista(String URL){
+
+
+        RequestQueue queue = Volley.newRequestQueue(this);
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+            }
+        }, new Response.ErrorListener(){
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        queue.add(stringRequest);
+
+    }
+
+    public void ActualizarPistas(String URL){
 
 
         RequestQueue queue = Volley.newRequestQueue(this);

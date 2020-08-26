@@ -118,6 +118,13 @@
                 android:textSize="18sp"
                 android:text="EDITAR" />
 
+            <TextView
+                android:id="@+id/spMate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="invisible" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

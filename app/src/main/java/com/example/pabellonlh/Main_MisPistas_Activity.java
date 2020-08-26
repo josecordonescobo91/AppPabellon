@@ -63,7 +63,9 @@ public class Main_MisPistas_Activity extends AppCompatActivity {
                     try {
                         JSONArray ja = new JSONArray(response);
                         Log.i("sizejson",""+ja.length());
-                        CargarListView(ja);
+                        Intent intent = getIntent();
+                        String usuario = intent.getStringExtra("usuario");
+                        CargarListView(ja, usuario);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -83,16 +85,16 @@ public class Main_MisPistas_Activity extends AppCompatActivity {
 
     }
 
-    public void CargarListView(JSONArray ja){
+    public void CargarListView(JSONArray ja, final String usuario){
 
         final ArrayList<String> lista = new ArrayList<>();
         final ArrayList<String> idPista = new ArrayList<>();
-        lista.add("\n"+"DIA                        " +"HORA                     "+ "PISTA");
+        lista.add("\n"+"DIA                       " +"HORA                   "+ "M        "+"PISTA");
 
         for(int i=0;i<ja.length();i+=25){
 
             try {
-                lista.add("\n"+ja.getString(i+3)+"          "+ja.getString(i+4)+"          "+ja.getString(i+5));
+                lista.add("\n"+ja.getString(i+3)+"        "+ja.getString(i+4)+"        "+ja.getString(i+10)+"        "+ja.getString(i+5));
 
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -109,10 +111,10 @@ public class Main_MisPistas_Activity extends AppCompatActivity {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // i.putExtra("usuario", usuario);
                 Intent intent = new Intent(Main_MisPistas_Activity.this, Main_EliminarEditar_MiPista_Activity.class);
+                //Toast.makeText(Main_MisPistas_Activity.this, lista.get(position)+"  "+usuario, Toast.LENGTH_SHORT).show();
 
-               intent.putExtra("objetoData", lista.get(position));
+               intent.putExtra("objetoData", lista.get(position)+"          "+usuario);
 
                 startActivity(intent);
 
